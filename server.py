@@ -1,19 +1,15 @@
 from flask import Flask, request, abort
+from flask_restful import Resource, Api
 import sys
 
 app = Flask(__name__)
+api = Api(app)
 
 data = {}
 
 
-@app.route('/')
-def main_page():
-    return 'Welcome to Home screen :)'
-
-
-@app.route('/set', methods=['POST'])
-def set_value():
-    if request.method == 'POST':
+class SetValue(Resource):
+    def post(self):
         key = request.form.get('key')
         value = request.form.get('value')
         if key is None or value is None:
@@ -28,14 +24,10 @@ def set_value():
         data.update({key: lst})
 
         return '(%s, %s) has been added to data list' % (key, value)
-    else:
-        # throw an error
-        abort(404)
 
 
-@app.route('/get', methods=['GET'])
-def get_last():
-    if request.method == 'GET':
+class GetValue(Resource):
+    def get(self):
         key = request.args.get('key')
 
         if key is None:
@@ -47,14 +39,10 @@ def get_last():
             return '%s is not exists' % key
 
         return lst[-1]
-    else:
-        # throw an error
-        abort(404)
 
 
-@app.route('/history', methods=['GET'])
-def get_history():
-    if request.method == 'GET':
+class GetHistory(Resource):
+    def get(self):
         key = request.args.get('key')
 
         if key is None:
@@ -66,9 +54,11 @@ def get_history():
             return '%s is not exists' % key
 
         return str(lst)
-    else:
-        # throw an error
-        abort(404)
+
+
+api.add_resource(SetValue, '/set')
+api.add_resource(GetValue, '/get')
+api.add_resource(GetHistory, "/history")
 
 
 if __name__ == '__main__':
