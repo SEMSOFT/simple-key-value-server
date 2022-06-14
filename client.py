@@ -1,9 +1,9 @@
-import requests
 from requests import get, post
 import sys
 
-url = 'http://127.0.0.1:5000'
-
+hostname = 'http://127.0.0.1'
+port = 5000
+url = hostname + ':' + str(port)
 
 def invalid():
     print("Invalid command")
