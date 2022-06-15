@@ -30,4 +30,4 @@ if __name__ == '__main__':
         response = get(url + '/history', params={'key': args[1]})
         print(response.text)
     else:
-        print("Invalid command")
+        invalid()
