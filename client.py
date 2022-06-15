@@ -17,7 +17,7 @@ if __name__ == '__main__':
     elif args[0] == 'set':
         if len(args) < 3:
             invalid()
-        response = post(url + '/set', data={'key': args[1], 'value': args[2]})
+        response = post(url + '/set', json={'key': args[1], 'value': args[2]})
         print(response.text)
     elif args[0] == 'get':
         if len(args) < 2:

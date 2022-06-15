@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from flask_restful import Resource, Api
 import sys
 
@@ -10,11 +10,12 @@ data = {}
 
 class SetValue(Resource):
     def post(self):
-        key = request.form.get('key')
-        value = request.form.get('value')
+        json_data = request.json
+        key = json_data.get('key')
+        value = json_data.get('value')
+
         if key is None or value is None:
-            abort(404)
-            # throw an error
+            abort(400)
 
         lst = data.get(key)
         if lst is None:
@@ -31,14 +32,13 @@ class GetValue(Resource):
         key = request.args.get('key')
 
         if key is None:
-            # throw an error
-            abort(404)
+            abort(400)
 
         lst = data.get(key)
         if lst is None:
-            return '%s is not exists' % key
+            abort(404)
 
-        return lst[-1]
+        return jsonify({'value': lst[-1]})
 
 
 class GetHistory(Resource):
@@ -46,20 +46,18 @@ class GetHistory(Resource):
         key = request.args.get('key')
 
         if key is None:
-            # throw an error
-            abort(404)
+            abort(400)
 
         lst = data.get(key)
         if lst is None:
-            return '%s is not exists' % key
+            abort(404)
 
-        return str(lst)
+        return jsonify({'values': lst})
 
 
 api.add_resource(SetValue, '/set')
 api.add_resource(GetValue, '/get')
-api.add_resource(GetHistory, "/history")
-
+api.add_resource(GetHistory, '/history')
 
 if __name__ == '__main__':
     args = sys.argv
