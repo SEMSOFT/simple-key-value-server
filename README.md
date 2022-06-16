@@ -1,7 +1,7 @@
 # simple key-value server
 
 ## Server
-The server is a service providing REST API with Flask-restful.
+This server is a service that provides REST API by Flask-restful.
 
 The server has three commands:
 - Receives a (key, value) and stores it.
