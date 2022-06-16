@@ -1,7 +1,7 @@
 # simple key-value server
 
 ## Server
-This server is a service that provides REST API by Flask-restful.
+This server is a service that provides REST API using Flask-restful.
 
 The server has three commands:
 - Receives a (key, value) and stores it.
@@ -34,7 +34,7 @@ python server.py 127.0.0.1 5000
 ```
 
 ### Run client
-The client will send requests to localhost:5000 by default. So you can change it from the code.
+The client will send requests to localhost:5000 by default. You can also change this in the code.
 
 The followings are the commands for sending a request from the client to the server:
 - Set a new item with (key, value):
