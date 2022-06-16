@@ -24,7 +24,7 @@ class SetValue(Resource):
 
         data.update({key: lst})
 
-        return '(%s, %s) has been added to data list' % (key, value)
+        return '(%s, %s) has been added to data list' % (key, value), 201
 
 
 class GetValue(Resource):
