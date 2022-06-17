@@ -34,7 +34,7 @@ python server.py 127.0.0.1 5000
 ```
 
 ### Run client
-The client will send requests to localhost:5000 by default. You can also change this in the code.
+The client will read the hostname and the port from the `.env` file and send requests to them. The `.env.example` file is an example of `.env` file. 
 
 The followings are the commands for sending a request from the client to the server:
 - Set a new item with (key, value):
