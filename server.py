@@ -1,6 +1,8 @@
-from flask import Flask, request, abort, jsonify, make_response
-from flask_restful import Resource, Api
 import sys
+
+from flask import Flask, request, abort, make_response
+from flask_restful import Resource, Api
+
 from datamanager import DataManager
 
 app = Flask(__name__)
@@ -20,7 +22,8 @@ class SetValue(Resource):
 
         data_manager.append(key, value)
 
-        return make_response({'message': '(%s, %s) has been added to data list' % (key, value)}, 201)
+        return make_response({'status': 'success',
+                              'result': {'key': key, 'value': value}}, 200)
 
 
 class GetValue(Resource):
@@ -32,9 +35,12 @@ class GetValue(Resource):
 
         try:
             value = data_manager.get_last(key)
-            return jsonify({'value': value})
-        except:
+            return make_response({'status': 'success',
+                                  'result': {'key': key, 'value': value}}, 200)
+        except KeyError:
             abort(404)
+        except:
+            abort(500)
 
 
 class GetHistory(Resource):
@@ -46,9 +52,12 @@ class GetHistory(Resource):
 
         try:
             history = data_manager.get_history(key)
-            return jsonify({'values': history})
-        except:
+            return make_response({'status': 'success',
+                                  'result': {'key': key, 'values': history}}, 200)
+        except KeyError:
             abort(404)
+        except:
+            abort(500)
 
 
 api.add_resource(SetValue, '/set')

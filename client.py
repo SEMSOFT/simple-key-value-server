@@ -14,6 +14,11 @@ def invalid():
     print("Invalid command")
 
 
+def print_response(response):
+    print('Status code:', response.status_code)
+    print(response.text)
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]
     if len(args) < 2:
@@ -23,18 +28,18 @@ if __name__ == '__main__':
             invalid()
         else:
             response = post(url + '/set', json={'key': args[1], 'value': args[2]})
-            print(response.text)
+            print_response(response)
     elif args[0] == 'get':
         if len(args) < 2:
             invalid()
         else:
             response = get(url + '/get', params={'key': args[1]})
-            print(response.text)
+            print_response(response)
     elif args[0] == 'history':
         if len(args) < 2:
             invalid()
         else:
             response = get(url + '/history', params={'key': args[1]})
-            print(response.text)
+            print_response(response)
     else:
         invalid()
