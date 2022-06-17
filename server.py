@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, make_response
 from flask_restful import Resource, Api
 import sys
 from datamanager import DataManager
@@ -20,7 +20,7 @@ class SetValue(Resource):
 
         data_manager.append(key, value)
 
-        return {'message': '(%s, %s) has been added to data list' % (key, value)}, 201
+        return make_response({'message': '(%s, %s) has been added to data list' % (key, value)}, 201)
 
 
 class GetValue(Resource):

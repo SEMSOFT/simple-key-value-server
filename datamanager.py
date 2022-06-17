@@ -15,7 +15,7 @@ class DataManager:
         lst = self.data.get(key)
 
         if lst is None:
-            raise Exception('Not found')
+            raise KeyError('%s not found' % key)
 
         return lst[-1]
 
@@ -23,6 +23,6 @@ class DataManager:
         lst = self.data.get(key)
 
         if lst is None:
-            raise Exception('Not found')
+            raise KeyError('%s not found' % key)
 
         return lst
