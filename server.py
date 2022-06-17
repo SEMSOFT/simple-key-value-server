@@ -1,11 +1,12 @@
 from flask import Flask, request, abort, jsonify
 from flask_restful import Resource, Api
 import sys
+from datamanager import DataManager
 
 app = Flask(__name__)
 api = Api(app)
 
-data = {}
+data_manager = DataManager()
 
 
 class SetValue(Resource):
@@ -17,14 +18,9 @@ class SetValue(Resource):
         if key is None or value is None:
             abort(400)
 
-        lst = data.get(key)
-        if lst is None:
-            lst = []
-        lst.append(value)
+        data_manager.append(key, value)
 
-        data.update({key: lst})
-
-        return '(%s, %s) has been added to data list' % (key, value), 201
+        return {'message': '(%s, %s) has been added to data list' % (key, value)}, 201
 
 
 class GetValue(Resource):
@@ -34,11 +30,11 @@ class GetValue(Resource):
         if key is None:
             abort(400)
 
-        lst = data.get(key)
-        if lst is None:
+        try:
+            value = data_manager.get_last(key)
+            return jsonify({'value': value})
+        except:
             abort(404)
-
-        return jsonify({'value': lst[-1]})
 
 
 class GetHistory(Resource):
@@ -48,11 +44,11 @@ class GetHistory(Resource):
         if key is None:
             abort(400)
 
-        lst = data.get(key)
-        if lst is None:
+        try:
+            history = data_manager.get_history(key)
+            return jsonify({'values': history})
+        except:
             abort(404)
-
-        return jsonify({'values': lst})
 
 
 api.add_resource(SetValue, '/set')
